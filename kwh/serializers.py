@@ -3,15 +3,20 @@ from .models import FemsTrans,FemsPayload
 
 
 class kwhFemsPayload(serializers.ModelSerializer):
-    # dev = serializers.CharField(required=True)
-    # dev_time = serializers.CharField(required=True)
     class Meta:
         model = FemsPayload
-        fields =  ('dev','dev_time','payload_data')
-class kwhFemsTrans_serializer(serializers.ModelSerializer):
+        fields =  ('dev_id','dev_time','payload_data')
 
-    payload = kwhFemsPayload(many=True,read_only=True)
+class kwhFemsTrans_serializer(serializers.ModelSerializer):
+    payload = kwhFemsPayload(many=True)
 
     class Meta:
         model = FemsTrans
-        fields = ('transaction_id', 'site_id', 'eng_type', 'version','payload')
+        fields = ('transaction_id', 'site_id', 'eng_type', 'version', 'payload')
+
+    def create(self, validated_data):
+        payload_data = validated_data.pop('payload')
+        site = FemsTrans.objects.create(**validated_data)
+        for payloads_data in payload_data:
+            FemsPayload.objects.create(site=site, **payloads_data)
+        return site
