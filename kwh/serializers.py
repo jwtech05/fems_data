@@ -5,14 +5,14 @@ from .models import FemsTrans,FemsPayload
 class kwhFemsPayload(serializers.ModelSerializer):
     class Meta:
         model = FemsPayload
-        fields =  ('dev_id','dev_time','payload_data')
+        fields =  ('payload_data')
 
 class kwhFemsTrans_serializer(serializers.ModelSerializer):
     payload = kwhFemsPayload(many=True)
 
     class Meta:
         model = FemsTrans
-        fields = ('transaction_id', 'site_id', 'eng_type', 'version', 'payload')
+        fields = ('transaction_id', 'site_id', 'eng_type', 'version', 'payload','dev_id', 'dev_time')
 
     def create(self, validated_data):
         payload_data = validated_data.pop('payload')
