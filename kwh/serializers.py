@@ -5,7 +5,7 @@ from .models import FemsTrans,FemsPayload
 class kwhFemsPayload(serializers.ModelSerializer):
     class Meta:
         model = FemsPayload
-        fields =  ('payload_data')
+        fields =  ('dev_id','dev_time','payload_data')
 
 class kwhFemsTrans_serializer(serializers.ModelSerializer):
     payload = kwhFemsPayload(many=True)
@@ -20,3 +20,5 @@ class kwhFemsTrans_serializer(serializers.ModelSerializer):
         for payloads_data in payload_data:
             FemsPayload.objects.create(site=site, **payloads_data)
         return site
+
+
