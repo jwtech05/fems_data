@@ -21,7 +21,7 @@ class addFemsTransData1(APIView):
         kwhFemsTrans = kwhFemsTrans_serializer(data=request.data)
         if kwhFemsTrans.is_valid():
             kwhFemsTrans.save()
-            return Response(kwhFemsTrans.data, status=status.HTTP_201_CREATED)
+            return Response(request.data, status=status.HTTP_201_CREATED)
         else:
             return Response(kwhFemsTrans.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -36,10 +36,11 @@ class addFemsTransData2(APIView):
             c['payload_data'] = d
             request.data['payload'][i] = c
             request.data.update(c)
+        del request.data['payload_data']
         print(request.data)
         kwhFemsTrans = kwhFemsTrans_serializer(data=request.data)
         if kwhFemsTrans.is_valid():
             kwhFemsTrans.save()
-            return Response(kwhFemsTrans.data, status=status.HTTP_201_CREATED)
+            return Response(request.data, status=status.HTTP_201_CREATED)
         else:
             return Response(kwhFemsTrans.errors, status=status.HTTP_400_BAD_REQUEST)

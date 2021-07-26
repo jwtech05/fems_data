@@ -1,12 +1,14 @@
 FROM python:3.7.6
 
-RUN echo "fems_data"
+RUN echo "fems1"
 
 WORKDIR /home/
 
 RUN git clone https://github.com/jwtech05/fems_data.git
 
 WORKDIR /home/양진이
+
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
